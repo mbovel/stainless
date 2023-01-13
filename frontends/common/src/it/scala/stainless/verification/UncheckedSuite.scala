@@ -19,7 +19,7 @@ trait UncheckedSuite extends VerificationComponentTestSuite {
 
 class SMTZ3UncheckedSuite extends UncheckedSuite {
   override def configurations = super.configurations.map {
-    seq => inox.optSelectedSolvers(Set("smt-z3:z3-4.8.12")) +: seq
+    seq => inox.optSelectedSolvers(Set("smt-z3")) +: seq
   }
 }
 

@@ -14,8 +14,7 @@ import scala.util.{Failure, Success, Try}
 abstract class ExtractionSuite extends AnyFunSpec with inox.ResourceUtils with InputUtils {
 
   def options: Seq[inox.OptionValue[_]] = Seq()
-
-  final def createContext(options: inox.Options) = stainless.TestContext(options)
+  final def createContext(options: inox.Options) = stainless.TestContext.debug(Set(), options)
 
   private def testSetUp(dir: String): (inox.Context, List[String]) = {
     val ctx = createContext(inox.Options(options))

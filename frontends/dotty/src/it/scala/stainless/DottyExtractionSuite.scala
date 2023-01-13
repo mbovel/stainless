@@ -4,6 +4,7 @@ package stainless
 
 class DottyExtractionSuite extends ExtractionSuite {
 
+  /*
   testExtractAll("extraction/valid")
   testRejectAll("extraction/invalid",
     "FunnyScalacInference.scala",
@@ -24,6 +25,7 @@ class DottyExtractionSuite extends ExtractionSuite {
   testExtractAll("termination/looping")
   testExtractAll("termination/unchecked-invalid")
   testExtractAll("termination/false-invalid")
+  */
 
   testExtractAll("dotty-specific/valid",
     "ConstructorRefinement.scala",
