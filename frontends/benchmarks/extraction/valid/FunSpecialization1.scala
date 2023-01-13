@@ -44,7 +44,7 @@ object FunSpecialization1Example {
   @template
   def concatInductiveProof[T](xs: List[T], ys: List[T]): Unit =
     xs match {
-      case Nil() => true
+      case Nil() => ()
       case Cons(x, xs) => concatInductiveProof(xs, ys)
     }
 
