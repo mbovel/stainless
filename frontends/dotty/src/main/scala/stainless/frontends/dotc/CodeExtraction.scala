@@ -16,7 +16,7 @@ import core.Symbols._
 import core.Types._
 import core.Flags._
 import core.NameKinds
-import refine.EventuallyRefinementType
+import qualified.EventuallyQualifiedType
 import util.{NoSourcePosition, SourcePosition}
 import stainless.ast.SymbolIdentifier
 import extraction.xlang.{trees => xt}
@@ -2219,7 +2219,7 @@ class CodeExtraction(inoxCtx: inox.Context, symbolMapping: SymbolMapping)(using 
     (tpt match {
       case NoType => xt.Untyped
 
-      case EventuallyRefinementType(parent, predicate) =>
+      case EventuallyQualifiedType(parent, predicate) =>
         extractTree(predicate) match
           case xt.Lambda(Seq(arg), body) => xt.RefinementType(arg, body)
           case _ => outOfSubsetError(tpt.typeSymbol.sourcePos, "Malformed refinement")
