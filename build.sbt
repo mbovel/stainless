@@ -36,14 +36,14 @@ lazy val nTestParallelism = {
 }
 
 // The Scala version with which Stainless is compiled.
-val stainlessScalaVersion = "3.3.0-RC1-bin-SNAPSHOT"
+val stainlessScalaVersion = "3.3.2-RC1-bin-SNAPSHOT"
 // Stainless supports Scala 2.13 and Scala 3.2 programs.
 val frontendScalacVersion = "2.13.10"
-val frontendDottyVersion = "3.3.0-RC1-bin-SNAPSHOT"
+val frontendDottyVersion = "3.3.2-RC1-bin-SNAPSHOT"
 // The Stainless libraries use Scala 2.13, but they are compatible with Scala 3.2 as well.
-val stainlessLibScalaVersion = "3.3.0-RC1-bin-SNAPSHOT"
+val stainlessLibScalaVersion = "3.3.2-RC1-bin-SNAPSHOT"
 
-scalaVersion := "3.3.0-RC1-bin-SNAPSHOT"
+scalaVersion := "3.3.2-RC1-bin-SNAPSHOT"
 
 lazy val frontendClass = settingKey[String]("The name of the compiler wrapper used to extract stainless trees")
 
@@ -274,8 +274,8 @@ val scriptSettings: Seq[Setting[_]] = Seq(
 
 def ghProject(repo: String, version: String) = RootProject(uri(s"${repo}#${version}"))
 
-lazy val inox = RootProject(file("../inox"))
-//lazy val inox = ghProject("https://github.com/epfl-lara/inox.git", "ec6112f8b3e5910b78518a367f1f6b55ee0e3d81")
+//lazy val inox = RootProject(file("../inox"))
+lazy val inox = ghProject("https://github.com/epfl-lara/inox.git", "ec6112f8b3e5910b78518a367f1f6b55ee0e3d81")
 lazy val cafebabe = ghProject("https://github.com/epfl-lara/cafebabe.git", "616e639b34379e12b8ac202849de3ebbbd0848bc")
 
 // Allow integration test to use facilities from regular tests
