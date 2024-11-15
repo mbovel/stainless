@@ -1679,6 +1679,13 @@ trait ASTExtractors {
         case _ => None
       }
     }
+
+    object ExQualified {
+      def unapply(annot: Annotation): Option[tpd.Tree] = annot.symbol match {
+        case ExSymbol("scala", "annotation", "qualified") => Some(annot.arguments.head)
+        case _ => None
+      }
+    }
   }
 
   object ExAndThen {

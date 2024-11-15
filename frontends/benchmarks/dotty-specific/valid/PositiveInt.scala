@@ -3,7 +3,7 @@ import stainless.lang._
 
 object PositiveInt {
 
-  case class Foo(n: { m: Int => m > 0 }) {
+  case class Foo(n: { m: Int with m > 0 }) {
     def bar: Int = n
   }
 

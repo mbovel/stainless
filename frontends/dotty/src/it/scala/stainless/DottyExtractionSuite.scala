@@ -26,11 +26,5 @@ class DottyExtractionSuite extends ExtractionSuite {
   testExtractAll("termination/false-invalid")
 
   testExtractAll("dotty-specific/valid",
-    "ConstructorRefinement.scala",
-    "IdentityRefinement.scala",
-    "PositiveInt.scala",
-    "PositiveIntAlias.scala",
-    "RefinedTypeMember.scala",
-    "SortedListHead.scala",
     "ErasedTerms1.scala")
 }

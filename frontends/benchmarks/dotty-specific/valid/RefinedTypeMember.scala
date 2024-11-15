@@ -7,7 +7,7 @@ object RefinedTypeMember {
   }
 
   case class SomeFoo() {
-    type Bar = { y: Int => y > 0 }
+    type Bar = { y: Int with y > 0 }
 
     def x: Bar = 42
   }

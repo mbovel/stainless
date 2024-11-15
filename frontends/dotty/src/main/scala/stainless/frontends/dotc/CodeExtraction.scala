@@ -1255,6 +1255,8 @@ class CodeExtraction(inoxCtx: inox.Context,
       xt.AnnotatedType(stripAnnotationsExceptStrictBV(tp), Seq(xt.StrictBV))
     case xt.AnnotatedType(tp, _) =>
       stripAnnotationsExceptStrictBV(tp)
+    case xt.RefinementType(vd, _) =>
+      stripAnnotationsExceptStrictBV(vd.tpe)
     case _ => tpe
   }
 
@@ -2262,9 +2264,9 @@ class CodeExtraction(inoxCtx: inox.Context,
     val lhs = extractTree(lhs0)
     val rhs = extractTree(rhs0)
 
-    val ltpe = extractType(lhs0)(using dctx.setResolveTypes(true))
+    val ltpe = stripAnnotationsExceptStrictBV(extractType(lhs0)(using dctx.setResolveTypes(true)))
     checkBits(lhs0, ltpe)
-    val rtpe = extractType(rhs0)(using dctx.setResolveTypes(true))
+    val rtpe = stripAnnotationsExceptStrictBV(extractType(rhs0)(using dctx.setResolveTypes(true)))
     checkBits(rhs0, rtpe)
 
     val id = { (e: xt.Expr) => e }
@@ -2338,6 +2340,11 @@ class CodeExtraction(inoxCtx: inox.Context,
   private def extractType(tpt: Type)(using dctx: DefContext, pos: SourcePosition): xt.Type =
     (tpt match {
       case NoType => xt.Untyped
+
+      case AnnotatedType(tpe, ExQualified(qualifier)) =>
+        extractTree(qualifier) match
+          case xt.Lambda(Seq(arg), body) => xt.RefinementType(arg, body)
+          case _ => outOfSubsetError(tpt.typeSymbol.sourcePos, "Malformed refinement")
 
       case tpe if tpe.typeSymbol == defn.CharClass    => xt.CharType()
       case tpe if tpe.typeSymbol == defn.ByteClass    => xt.Int8Type()

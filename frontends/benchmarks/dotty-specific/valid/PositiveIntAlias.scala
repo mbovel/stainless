@@ -2,7 +2,7 @@ import stainless.lang._
 
 object PositiveIntAlias {
 
-  type PositiveInt = { x: Int => x > 0 }
+  type PositiveInt = { x: Int with x > 0 }
 
   case class Foo(n: PositiveInt) {
     def bar: Int = n
@@ -13,7 +13,7 @@ object PositiveIntAlias {
   }
 
   def takePos(m: PositiveInt): PositiveInt = {
-    if (m + 1 > 0) m + 1 else m
+    if (m < Integer.MAX_VALUE) m + 1 else m
   }
 
 }

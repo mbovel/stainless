@@ -154,7 +154,7 @@ object DottyCompiler {
           } getOrElse { ctx.reporter.fatalError("No Scala 3 library found.") }
 
           val cps = Seq(scala213Lib, scala3Lib).distinct.mkString(java.io.File.pathSeparator)
-          val flags = Seq("-color:never", "-language:implicitConversions", "-Wsafe-init", s"-cp:$cps") // -Ysafe-init is deprecated (SAM 21.08.2024)
+          val flags = Seq("-color:never", "-language:implicitConversions", "-language:experimental.qualifiedTypes", "-Wsafe-init", s"-cp:$cps") // -Ysafe-init is deprecated (SAM 21.08.2024)
           allCompilerArguments(ctx, compilerArgs) ++ flags
         }
         val compiler: DottyCompiler = new DottyCompiler(ctx, this.callback)

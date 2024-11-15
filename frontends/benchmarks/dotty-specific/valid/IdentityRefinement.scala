@@ -1,9 +1,9 @@
 
 object IdentityRefinement {
-  type Neg = { x: Int => x < 0 }
+  type Neg = { x: Int with x < 0 }
 
   def id[T](x: T): T = x
 
-  def f() = id[{x: Int => x > 0}](1) + id[Neg](-1)
+  def f() = id[{x: Int with x > 0}](1) + id[Neg](-1)
 }
 

@@ -18,12 +18,6 @@ class DottyVerificationSuite extends VerificationComponentTestSuite {
 object DottyVerificationSuite {
   private def keepOnly(f: String): Boolean = {
     val noLongerCompiles = Set(
-      "ConstructorRefinement.scala",
-      "IdentityRefinement.scala",
-      "PositiveInt.scala",
-      "PositiveIntAlias.scala",
-      "RefinedTypeMember.scala",
-      "SortedListHead.scala",
       "ErasedTerms1.scala"
     )
     noLongerCompiles.forall(s => !f.endsWith(s))
