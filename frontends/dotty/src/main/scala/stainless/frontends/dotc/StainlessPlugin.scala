@@ -129,7 +129,10 @@ class StainlessPlugin extends StandardPlugin {
 
       val report = cb.getReport
       report foreach { report =>
-        report.emit(inoxCtx)
+        if (!report.isSuccess) {
+          report.emit(inoxCtx)
+          dottyCtx.reporter.report(Diagnostic.Error("Stainless verification failed", NoSourcePosition))
+        }
       }
 
       unitRes
@@ -157,6 +160,8 @@ class StainlessPlugin extends StandardPlugin {
 
     override def clearProgress(): Unit = ()
 
+    override def doEmit(msg: ProgressMessage, prevLength: Int): String = ""
+
     override def doEmit(message: Message): Unit = {
       val pos = toDottyPos(message.position)
 
@@ -166,10 +171,8 @@ class StainlessPlugin extends StandardPlugin {
 
         case msg: String =>
           message.severity match {
-            case INFO                     => dottyCtx.reporter.report(Info(msg, pos))
-            case WARNING                  => dottyCtx.reporter.report(Warning(msg.toMessage, pos))
             case ERROR | FATAL | INTERNAL => dottyCtx.reporter.report(Diagnostic.Error(msg, pos))
-            case _                        => dottyCtx.reporter.report(Info(msg, pos)) // DEBUG messages are at reported at INFO level
+            case _                        => () // Suppress INFO, DEBUG, and WARNING messages
           }
 
         case _ => ()
