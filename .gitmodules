@@ -1,4 +1,4 @@
 [submodule "inox"]
 	path = inox
-	url = https://github.com/epfl-lara/inox.git
-	branch = main
+	url = https://github.com/mbovel/inox.git
+	branch = refinement-types-eval-v0.9.9.3
