@@ -163,7 +163,7 @@ lazy val stainlessLibSettings: Seq[Setting[_]] = artifactSettings ++ Seq(
 
 lazy val assemblySettings: Seq[Setting[_]] = {
   def isNativeLib(file: String): Boolean =
-    file.endsWith("dll") || file.endsWith("so") || file.endsWith("jnilib")
+    file.endsWith("dll") || file.endsWith("so") || file.endsWith("jnilib") || file.endsWith("dylib")
 
   Seq(
     assembly / assemblyMergeStrategy := {
@@ -178,6 +178,7 @@ lazy val assemblySettings: Seq[Setting[_]] = {
       case PathList("stainless", _*) => MergeStrategy.first
       case path if path.endsWith("scala-collection-compat.properties") => MergeStrategy.first
       case "reflect.properties" => MergeStrategy.first
+      case PathList("lib-bin", _*) => MergeStrategy.first
       case file if isNativeLib(file) => MergeStrategy.first
       case x =>
         val oldStrategy = (assembly / assemblyMergeStrategy).value
@@ -327,11 +328,8 @@ lazy val `stainless-dotty` = (project in file("frontends/dotty"))
     buildInfoKeys ++= Seq[BuildInfoKey]("useJavaClassPath" -> false),
     // We include Scala library to be certain we also include scala-parser-combinators (which is not shipped with the Scala std library)
     assemblyPackageScala / assembleArtifact := true,
-    assembly / assemblyExcludedJars := {
-      val cp = (assembly / fullClasspath).value
-      // Don't include scalaz3 dependency because it is OS dependent
-      cp filter {_.data.getName.startsWith("scalaz3")}
-    },
+    // ScalaZ3 included for native Z3 support in benchmarks
+    assembly / assemblyExcludedJars := Seq.empty,
   )
   .dependsOn(`stainless-core`)
   .dependsOn(`stainless-library`)
